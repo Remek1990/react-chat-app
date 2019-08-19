@@ -95,6 +95,7 @@ class App extends React.Component {
         console.log('this.state.messages:', this.state.messages);
         return (
             <div className="app">
+				dzzzhopppa
 				<RoomList 
 					roomId={this.state.roomId}
 					subscribeToRoom={this.subscribeToRoom}
