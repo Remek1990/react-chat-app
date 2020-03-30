@@ -4,6 +4,8 @@ import MessageList from './components/MessageList'
 import SendMessageForm from './components/SendMessageForm'
 import RoomList from './components/RoomList'
 import NewRoomForm from './components/NewRoomForm'
+import AdaptiveMenu from './components/AdaptiveMenu'
+import hamburgerImg from './hamburger-png-white.png'
 import { tokenUrl, instanceLocator } from './config'
 
 class App extends React.Component {
@@ -62,6 +64,13 @@ class App extends React.Component {
     }
 	
 	subscribeToRoom(roomId) {
+		// fold adaptive menu if mobile version
+		let adaptiveMenu = document.getElementsByClassName("adaptive-menu")[0];
+		let burger = document.getElementsByClassName("burger-button")[0];
+		if(adaptiveMenu.classList.contains("active")) {
+			adaptiveMenu.classList.remove("active");
+			burger.classList.remove("active");
+		}
 		//clean up messages list when choosing another room
 		this.setState({ messages: [] })
         this.currentUser.subscribeToRoom({
@@ -95,6 +104,10 @@ class App extends React.Component {
         console.log('this.state.messages:', this.state.messages);
         return (
             <div className="app">
+				<div className="burger-button">
+					<img src={hamburgerImg} width="40"/>
+				</div>
+				<AdaptiveMenu/>
 				<RoomList 
 					roomId={this.state.roomId}
 					subscribeToRoom={this.subscribeToRoom}

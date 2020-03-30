@@ -32,6 +32,10 @@
         "r m m m m m"
         "n f f f f f";
   }
+
+  .adaptive-menu {
+    grid-area: a;
+  }
   
   .new-room-form {
     grid-area: n;
@@ -54,7 +58,8 @@
     box-sizing: border-box;
     padding: 10px;
     background-color: var(--main-color);
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
     height: 100%;
   }
   
@@ -96,6 +101,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 0;
+    min-height: 60px;
   }
   
   .new-room-form input {
@@ -128,6 +134,7 @@
   
   .message {
     margin: 15px 0;
+    max-width: 500px;
   }
   
   .message .message-username {
@@ -139,9 +146,10 @@
   .message .message-text {
     background: var(--main-color);
     color: var(--secondary-color);
-    display: inline;
+    /* display: inline; */
     padding: 4px 8px;
     border-radius: 8px;
+    word-break: break-word;
   }
   
   .message-list {
@@ -149,7 +157,8 @@
     padding-left: 6px;
     width: 100%;
     height: 100%;
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
     background: var(--secondary-color);
   }
   
@@ -160,6 +169,10 @@
     height: 100%;
     font-size: 34px;
     font-weight: 300;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
   }
   
   .send-message-form {
@@ -190,4 +203,57 @@
     position: absolute;
     top: 10px;
   }
+
+  .adaptive-menu {
+    background-color: var(--main-color);
+    width: 270px;
+    height: 100%;
+    position: absolute;
+    left: -270px;
+    transition: left 0.35s ease-out;
+    z-index: 1;
+  }
+
+  .adaptive-menu.active {
+    left: 0px;
+  }
   
+  .burger-button {
+    background-color: var(--main-color);
+    cursor: pointer;
+    border-radius: 0 50% 50% 0;
+    padding: 5px;
+    position: absolute;
+    top: 4px;
+    left: 0;
+    display: none;
+    transition: left 0.35s ease-out;
+    z-index: 2;
+  }
+
+  .burger-button.active {
+    left: 270px;
+  }
+  
+@media (max-width: 540px) {
+  .burger-button {
+    display: block;
+  }
+  .rooms-list {
+    height: initial;
+  }
+  .app {
+    grid-template-areas: 
+        "m m m m m m"
+        "m m m m m m"
+        "m m m m m m"
+        "m m m m m m"
+        "m m m m m m"
+        "f f f f f f"
+        "n n n n n n";
+  }
+
+  .message {
+    max-width: 310px;
+  }
+}

@@ -1,9 +1,90 @@
+<!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
         <div id="root"></div>
         <script type="text/jsx" src="index.pack.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                let adaptiveMenu = document.getElementsByClassName("adaptive-menu")[0];
+                let burger = document.getElementsByClassName("burger-button")[0];
+                let app = document.getElementsByClassName("app")[0];
+                let roomButtons = document.getElementsByClassName("room");
+
+                function swipeMenu(e) {
+                    e.preventDefault();
+                    adaptiveMenu.classList.toggle("active");
+                    burger.classList.toggle("active");
+                }
+
+                burger.addEventListener("click", swipeMenu);
+
+                let roomsList = document.getElementsByClassName("rooms-list")[0];
+                let newRoomForm = document.getElementsByClassName("new-room-form")[0];
+
+                if(document.documentElement.clientWidth <= 540) {
+                    adaptiveMenu.append(newRoomForm);
+                    adaptiveMenu.append(roomsList);
+                }
+
+                let placesChanged = false;
+                window.addEventListener("resize", function() {
+                    if(document.documentElement.clientWidth <= 540) {
+                        adaptiveMenu.append(newRoomForm);
+                        adaptiveMenu.append(roomsList);
+                    } else {
+                        app.append(roomsList);
+                        app.append(newRoomForm);
+                    }
+                });
+                
+                let touchstartX = 0;
+                let touchstartY = 0;
+                let touchendX = 0;
+                let touchendY = 0;
+                const gestureZone = document.documentElement;
+
+                gestureZone.addEventListener("mousedown", function(e) {
+                    touchstartX = e.clientX;
+                    touchstartY = e.clientY;
+                });
+
+                gestureZone.addEventListener("mouseup", function(e) {
+                    touchendX = e.clientX;
+                    touchendY = e.clientY;
+                    handleGesture();
+                });
+
+                gestureZone.addEventListener('touchstart', function(event) {
+                    touchstartX = event.changedTouches[0].screenX;
+                    touchstartY = event.changedTouches[0].screenY;
+                }, false);
+
+                gestureZone.addEventListener('touchend', function(event) {
+                    touchendX = event.changedTouches[0].screenX;
+                    touchendY = event.changedTouches[0].screenY;
+                    handleGesture();
+                }, false);
+
+                function handleGesture() {
+                    if (touchendX < touchstartX && (touchstartX - touchendX) > 50) {
+                        if(adaptiveMenu.classList.contains("active")) {
+                            console.log("swipe left");
+                            adaptiveMenu.classList.remove("active");
+                            burger.classList.remove("active");
+                        }
+                    } else if(touchendX > touchstartX && (touchendX - touchstartX) > 50) {
+                        if(!adaptiveMenu.classList.contains("active")) {
+                            console.log("swipe right");
+                            adaptiveMenu.classList.add("active");
+                            burger.classList.add("active");
+                        }
+                    }
+                }
+            });
+        </script>
     </body>
 </html>
