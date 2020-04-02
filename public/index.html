@@ -33,11 +33,17 @@
                 let placesChanged = false;
                 window.addEventListener("resize", function() {
                     if(document.documentElement.clientWidth <= 540) {
-                        adaptiveMenu.append(newRoomForm);
-                        adaptiveMenu.append(roomsList);
+                        if(!placesChanged) {
+                            adaptiveMenu.append(newRoomForm);
+                            adaptiveMenu.append(roomsList);
+                            placesChanged = true;
+                        }
                     } else {
-                        app.append(roomsList);
-                        app.append(newRoomForm);
+                        if(placesChanged) {
+                            app.append(roomsList);
+                            app.append(newRoomForm);
+                            placesChanged = false;
+                        }
                     }
                 });
                 
